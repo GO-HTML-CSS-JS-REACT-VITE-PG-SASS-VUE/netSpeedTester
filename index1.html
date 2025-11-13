@@ -23,7 +23,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             width: 100%;
             background: rgba(0, 0, 0, 0.7);
             border-radius: 20px;
@@ -46,26 +46,6 @@
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.8;
-        }
-
-        .ip-info {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .ip-title {
-            font-size: 1rem;
-            margin-bottom: 5px;
-            opacity: 0.8;
-        }
-
-        .ip-value {
-            font-size: 1.3rem;
-            font-weight: bold;
-            font-family: monospace;
         }
 
         .status-container {
@@ -239,46 +219,6 @@
             font-size: 0.9rem;
         }
 
-        .load-table {
-            margin-top: 30px;
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .load-table th {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        .load-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .load-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .load-bar {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .load-fill {
-            height: 100%;
-            background: linear-gradient(to right, #00b09b, #96c93d);
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-
         .advanced-options {
             margin-top: 30px;
             padding-top: 20px;
@@ -372,10 +312,6 @@
             .status-box {
                 width: 100%;
             }
-            
-            .load-table {
-                font-size: 0.9rem;
-            }
         }
 
         @media (max-width: 480px) {
@@ -391,10 +327,6 @@
             .chart-label {
                 font-size: 0.8rem;
             }
-            
-            .load-table {
-                font-size: 0.8rem;
-            }
         }
     </style>
 </head>
@@ -405,11 +337,6 @@
     </header>
 
     <div class="container">
-        <div class="ip-info">
-            <div class="ip-title">Ваш IP-адрес</div>
-            <div class="ip-value" id="ip-address">Определение...</div>
-        </div>
-
         <div class="status-container">
             <div class="status-box">
                 <div class="status-title">Режим</div>
@@ -498,58 +425,6 @@
             </div>
         </div>
 
-        <table class="load-table">
-            <thead>
-                <tr>
-                    <th>Компонент</th>
-                    <th>Нагрузка (%)</th>
-                    <th>Статус</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Сетевая карта</td>
-                    <td>
-                        <div>0%</div>
-                        <div class="load-bar">
-                            <div class="load-fill" id="nic-load" style="width: 0%"></div>
-                        </div>
-                    </td>
-                    <td id="nic-status">Ожидание</td>
-                </tr>
-                <tr>
-                    <td>ЦПУ обработка</td>
-                    <td>
-                        <div>0%</div>
-                        <div class="load-bar">
-                            <div class="load-fill" id="cpu-load" style="width: 0%"></div>
-                        </div>
-                    </td>
-                    <td id="cpu-status">Ожидание</td>
-                </tr>
-                <tr>
-                    <td>Память</td>
-                    <td>
-                        <div>0%</div>
-                        <div class="load-bar">
-                            <div class="load-fill" id="memory-load" style="width: 0%"></div>
-                        </div>
-                    </td>
-                    <td id="memory-status">Ожидание</td>
-                </tr>
-                <tr>
-                    <td>Сетевой стек</td>
-                    <td>
-                        <div>0%</div>
-                        <div class="load-bar">
-                            <div class="load-fill" id="network-load" style="width: 0%"></div>
-                        </div>
-                    </td>
-                    <td id="network-status">Ожидание</td>
-                </tr>
-            </tbody>
-        </table>
-
         <div class="advanced-options">
             <div class="options-title">Продвинутые настройки</div>
             <div class="options-grid">
@@ -597,7 +472,6 @@
             const uploadValue = document.getElementById('upload-value');
             const jitterValue = document.getElementById('jitter-value');
             const multithreadToggle = document.getElementById('multithread-toggle');
-            const ipAddress = document.getElementById('ip-address');
             
             // Элементы круговых диаграмм
             const pingChart = document.getElementById('ping-chart');
@@ -609,30 +483,8 @@
             const downloadChartValue = document.getElementById('download-chart-value');
             const uploadChartValue = document.getElementById('upload-chart-value');
             const jitterChartValue = document.getElementById('jitter-chart-value');
-            
-            // Элементы таблицы нагрузки
-            const nicLoad = document.getElementById('nic-load');
-            const cpuLoad = document.getElementById('cpu-load');
-            const memoryLoad = document.getElementById('memory-load');
-            const networkLoad = document.getElementById('network-load');
-            
-            const nicStatus = document.getElementById('nic-status');
-            const cpuStatus = document.getElementById('cpu-status');
-            const memoryStatus = document.getElementById('memory-status');
-            const networkStatus = document.getElementById('network-status');
 
             let testInProgress = false;
-
-            // Получение IP-адреса
-            fetch('https://api.ipify.org?format=json')
-                .then(response => response.json())
-                .then(data => {
-                    ipAddress.textContent = data.ip;
-                })
-                .catch(error => {
-                    ipAddress.textContent = 'Не удалось определить';
-                    console.error('Ошибка получения IP:', error);
-                });
 
             startBtn.addEventListener('click', startTest);
             advancedBtn.addEventListener('click', toggleAdvancedMode);
@@ -653,9 +505,6 @@
                 // Сброс диаграмм
                 resetCharts();
                 
-                // Сброс таблицы нагрузки
-                resetLoadTable();
-                
                 // Начало теста
                 modeStatus.textContent = multithreadToggle.checked ? 'Многопоточный' : 'Обычный';
                 testStatus.textContent = 'Тестирование...';
@@ -665,37 +514,24 @@
                 setTimeout(() => {
                     updateChart(pingChart, 75, pingChartValue, '8 мс');
                     pingValue.textContent = '8';
-                    updateLoadTable('nic', 15, 'Активна');
-                    updateLoadTable('cpu', 10, 'Низкая');
                     progressText.textContent = 'Тестирование загрузки...';
                     
                     // Имитация тестирования загрузки
                     setTimeout(() => {
                         updateChart(downloadChart, 85, downloadChartValue, '204.61');
                         downloadValue.textContent = '204.61 Мбит/с';
-                        updateLoadTable('nic', 65, 'Высокая');
-                        updateLoadTable('cpu', 35, 'Средняя');
-                        updateLoadTable('memory', 20, 'Низкая');
-                        updateLoadTable('network', 40, 'Средняя');
                         progressText.textContent = 'Тестирование отдачи...';
                         
                         // Имитация тестирования отдачи
                         setTimeout(() => {
                             updateChart(uploadChart, 92, uploadChartValue, '385.07');
                             uploadValue.textContent = '385.07 Мбит/с';
-                            updateLoadTable('nic', 85, 'Пиковая');
-                            updateLoadTable('cpu', 60, 'Высокая');
-                            updateLoadTable('memory', 45, 'Средняя');
-                            updateLoadTable('network', 75, 'Высокая');
                             progressText.textContent = 'Измерение джиттера...';
                             
                             // Имитация измерения джиттера
                             setTimeout(() => {
                                 updateChart(jitterChart, 95, jitterChartValue, '2 мс');
                                 jitterValue.textContent = '2 мс';
-                                updateLoadTable('cpu', 25, 'Низкая');
-                                updateLoadTable('memory', 15, 'Низкая');
-                                updateLoadTable('network', 20, 'Низкая');
                                 progressText.textContent = 'Тест завершен!';
                                 testStatus.textContent = 'Завершено';
                                 
@@ -723,24 +559,6 @@
                 jitterChartValue.textContent = '-';
             }
             
-            function resetLoadTable() {
-                nicLoad.style.width = '0%';
-                nicLoad.parentElement.previousElementSibling.textContent = '0%';
-                nicStatus.textContent = 'Ожидание';
-                
-                cpuLoad.style.width = '0%';
-                cpuLoad.parentElement.previousElementSibling.textContent = '0%';
-                cpuStatus.textContent = 'Ожидание';
-                
-                memoryLoad.style.width = '0%';
-                memoryLoad.parentElement.previousElementSibling.textContent = '0%';
-                memoryStatus.textContent = 'Ожидание';
-                
-                networkLoad.style.width = '0%';
-                networkLoad.parentElement.previousElementSibling.textContent = '0%';
-                networkStatus.textContent = 'Ожидание';
-            }
-            
             function updateChart(chartElement, percentage, valueElement, value) {
                 // Вычисляем угол поворота для заполнения диаграммы
                 const degrees = (percentage / 100) * 360 - 90;
@@ -748,35 +566,6 @@
                 
                 // Обновляем значение в центре диаграммы
                 valueElement.textContent = value;
-            }
-            
-            function updateLoadTable(component, percentage, status) {
-                let loadElement, statusElement;
-                
-                switch(component) {
-                    case 'nic':
-                        loadElement = nicLoad;
-                        statusElement = nicStatus;
-                        break;
-                    case 'cpu':
-                        loadElement = cpuLoad;
-                        statusElement = cpuStatus;
-                        break;
-                    case 'memory':
-                        loadElement = memoryLoad;
-                        statusElement = memoryStatus;
-                        break;
-                    case 'network':
-                        loadElement = networkLoad;
-                        statusElement = networkStatus;
-                        break;
-                }
-                
-                if (loadElement && statusElement) {
-                    loadElement.style.width = `${percentage}%`;
-                    loadElement.parentElement.previousElementSibling.textContent = `${percentage}%`;
-                    statusElement.textContent = status;
-                }
             }
             
             function toggleAdvancedMode() {
