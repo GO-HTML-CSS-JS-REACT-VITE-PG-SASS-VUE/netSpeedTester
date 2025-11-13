@@ -23,7 +23,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
             background: rgba(0, 0, 0, 0.7);
             border-radius: 20px;
@@ -111,74 +111,26 @@
 
         .progress-container {
             margin-bottom: 30px;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
         }
 
-        .progress-chart {
-            width: 150px;
-            height: 150px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .chart-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .chart-bg {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+        .progress-bar {
+            height: 20px;
             background: rgba(255, 255, 255, 0.1);
-            position: absolute;
-            top: 0;
-            left: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
         }
 
-        .chart-fill {
-            width: 100%;
+        .progress-fill {
             height: 100%;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
-            background: conic-gradient(#00b09b 0%, #96c93d 100%);
-            transform: rotate(-90deg);
-            transition: transform 1.5s ease;
-        }
-
-        .chart-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            width: 100%;
-        }
-
-        .chart-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .chart-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            width: 0%;
+            transition: width 0.5s ease;
         }
 
         .progress-text {
             text-align: center;
             font-size: 1.1rem;
-            margin-top: 20px;
-            width: 100%;
         }
 
         .results {
@@ -290,16 +242,7 @@
             transform: translateX(26px);
         }
 
-        @media (max-width: 768px) {
-            .progress-container {
-                justify-content: center;
-            }
-            
-            .progress-chart {
-                width: 130px;
-                height: 130px;
-            }
-            
+        @media (max-width: 600px) {
             .results, .options-grid {
                 grid-template-columns: 1fr;
             }
@@ -311,21 +254,6 @@
             
             .status-box {
                 width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .progress-chart {
-                width: 110px;
-                height: 110px;
-            }
-            
-            .chart-value {
-                font-size: 1.2rem;
-            }
-            
-            .chart-label {
-                font-size: 0.8rem;
             }
         }
     </style>
@@ -354,50 +282,9 @@
         </div>
 
         <div class="progress-container">
-            <div class="progress-chart">
-                <div class="chart-container">
-                    <div class="chart-bg"></div>
-                    <div class="chart-fill" id="ping-chart" style="transform: rotate(-90deg);"></div>
-                    <div class="chart-text">
-                        <div class="chart-value" id="ping-chart-value">-</div>
-                        <div class="chart-label">Пинг</div>
-                    </div>
-                </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
             </div>
-            
-            <div class="progress-chart">
-                <div class="chart-container">
-                    <div class="chart-bg"></div>
-                    <div class="chart-fill" id="download-chart" style="transform: rotate(-90deg);"></div>
-                    <div class="chart-text">
-                        <div class="chart-value" id="download-chart-value">-</div>
-                        <div class="chart-label">Загрузка</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="progress-chart">
-                <div class="chart-container">
-                    <div class="chart-bg"></div>
-                    <div class="chart-fill" id="upload-chart" style="transform: rotate(-90deg);"></div>
-                    <div class="chart-text">
-                        <div class="chart-value" id="upload-chart-value">-</div>
-                        <div class="chart-label">Отдача</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="progress-chart">
-                <div class="chart-container">
-                    <div class="chart-bg"></div>
-                    <div class="chart-fill" id="jitter-chart" style="transform: rotate(-90deg);"></div>
-                    <div class="chart-text">
-                        <div class="chart-value" id="jitter-chart-value">-</div>
-                        <div class="chart-label">Джиттер</div>
-                    </div>
-                </div>
-            </div>
-            
             <div class="progress-text" id="progress-text">Нажмите "Старт" для начала теста</div>
         </div>
 
@@ -464,6 +351,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const startBtn = document.getElementById('start-btn');
             const advancedBtn = document.getElementById('advanced-btn');
+            const progressFill = document.getElementById('progress-fill');
             const progressText = document.getElementById('progress-text');
             const modeStatus = document.getElementById('mode-status');
             const testStatus = document.getElementById('test-status');
@@ -472,17 +360,6 @@
             const uploadValue = document.getElementById('upload-value');
             const jitterValue = document.getElementById('jitter-value');
             const multithreadToggle = document.getElementById('multithread-toggle');
-            
-            // Элементы круговых диаграмм
-            const pingChart = document.getElementById('ping-chart');
-            const downloadChart = document.getElementById('download-chart');
-            const uploadChart = document.getElementById('upload-chart');
-            const jitterChart = document.getElementById('jitter-chart');
-            
-            const pingChartValue = document.getElementById('ping-chart-value');
-            const downloadChartValue = document.getElementById('download-chart-value');
-            const uploadChartValue = document.getElementById('upload-chart-value');
-            const jitterChartValue = document.getElementById('jitter-chart-value');
 
             let testInProgress = false;
 
@@ -502,35 +379,39 @@
                 uploadValue.textContent = '-';
                 jitterValue.textContent = '-';
                 
-                // Сброс диаграмм
-                resetCharts();
-                
                 // Начало теста
                 modeStatus.textContent = multithreadToggle.checked ? 'Многопоточный' : 'Обычный';
                 testStatus.textContent = 'Тестирование...';
                 progressText.textContent = 'Измерение пинга...';
                 
+                // Анимация прогресса
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 1;
+                    progressFill.style.width = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                    }
+                }, 50);
+                
                 // Имитация тестирования пинга
                 setTimeout(() => {
-                    updateChart(pingChart, 75, pingChartValue, '8 мс');
                     pingValue.textContent = '8';
                     progressText.textContent = 'Тестирование загрузки...';
                     
                     // Имитация тестирования загрузки
                     setTimeout(() => {
-                        updateChart(downloadChart, 85, downloadChartValue, '204.61');
                         downloadValue.textContent = '204.61 Мбит/с';
                         progressText.textContent = 'Тестирование отдачи...';
                         
                         // Имитация тестирования отдачи
                         setTimeout(() => {
-                            updateChart(uploadChart, 92, uploadChartValue, '385.07');
                             uploadValue.textContent = '385.07 Мбит/с';
                             progressText.textContent = 'Измерение джиттера...';
                             
                             // Имитация измерения джиттера
                             setTimeout(() => {
-                                updateChart(jitterChart, 95, jitterChartValue, '2 мс');
                                 jitterValue.textContent = '2 мс';
                                 progressText.textContent = 'Тест завершен!';
                                 testStatus.textContent = 'Завершено';
@@ -545,27 +426,6 @@
                         }, 2000);
                     }, 2000);
                 }, 1500);
-            }
-            
-            function resetCharts() {
-                pingChart.style.transform = 'rotate(-90deg)';
-                downloadChart.style.transform = 'rotate(-90deg)';
-                uploadChart.style.transform = 'rotate(-90deg)';
-                jitterChart.style.transform = 'rotate(-90deg)';
-                
-                pingChartValue.textContent = '-';
-                downloadChartValue.textContent = '-';
-                uploadChartValue.textContent = '-';
-                jitterChartValue.textContent = '-';
-            }
-            
-            function updateChart(chartElement, percentage, valueElement, value) {
-                // Вычисляем угол поворота для заполнения диаграммы
-                const degrees = (percentage / 100) * 360 - 90;
-                chartElement.style.transform = `rotate(${degrees}deg)`;
-                
-                // Обновляем значение в центре диаграммы
-                valueElement.textContent = value;
             }
             
             function toggleAdvancedMode() {
