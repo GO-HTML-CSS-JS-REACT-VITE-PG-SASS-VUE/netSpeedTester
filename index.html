@@ -493,17 +493,205 @@
                 font-size: 0.8rem;
             }
         }
+
+
+
+
+       body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 300;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 25px 20px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            z-index: 2;
+            transition: transform 0.4s ease;
+        }
+        
+        .nav-btn:hover .icon {
+            transform: scale(1.2);
+        }
+        
+        .title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            z-index: 2;
+        }
+        
+        .description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 2;
+            line-height: 1.4;
+        }
+        
+        /* Индивидуальные стили для кнопок */
+        .btn-home {
+            background: linear-gradient(135deg, rgba(116, 185, 255, 0.15) 0%, rgba(116, 185, 255, 0.05) 100%);
+            border: 1px solid rgba(116, 185, 255, 0.2);
+        }
+        
+        .btn-speedtest {
+            background: linear-gradient(135deg, rgba(102, 252, 241, 0.15) 0%, rgba(102, 252, 241, 0.05) 100%);
+            border: 1px solid rgba(102, 252, 241, 0.2);
+        }
+        
+        .btn-animation {
+            background: linear-gradient(135deg, rgba(255, 121, 198, 0.15) 0%, rgba(255, 121, 198, 0.05) 100%);
+            border: 1px solid rgba(255, 121, 198, 0.2);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
-    <a href="index0.html">1</a>
-    <a href="index1.html">2</a>
-    <a href="index2.html">3</a>
-    <a href="index3.html">4</a>
-    <a href="index4.html">5</a>
-    <a href="index_animasion.html">Анимация</a>
-    <a href="index_animasion1.html">Анимация</a>
-    <a href="index_animasion2.html">Анимация</a>
+ <div class="container">
+        <h2>Навигация по проектам</h2>
+        <div class="nav-grid">
+            <a href="index0.html" class="nav-btn btn-home">
+                <div class="icon">🏠</div>
+                <div class="title">Главная страница</div>
+                <div class="description">Базовая страница проекта с основной информацией</div>
+            </a>
+            
+            <a href="speedtest.html" class="nav-btn btn-speedtest">
+                <div class="icon">⚡</div>
+                <div class="title">Speed Test 2</div>
+                <div class="description">Вторая версия теста скорости интернет-соединения</div>
+            </a>
+            
+            <a href="speedtest2.html" class="nav-btn btn-speedtest">
+                <div class="icon">🚀</div>
+                <div class="title">Speed Test 3</div>
+                <div class="description">Улучшенная версия тестирования скорости с новыми функциями</div>
+            </a>
+            
+            <a href="speedtest3.html" class="nav-btn btn-speedtest">
+                <div class="icon">📊</div>
+                <div class="title">Speed Test 4</div>
+                <div class="description">Расширенный анализ скорости с графиками и статистикой</div>
+            </a>
+            
+            <a href="speedtest4.html" class="nav-btn btn-speedtest">
+                <div class="icon">🔍</div>
+                <div class="title">Speed Test 5</div>
+                <div class="description">Последняя версия теста с детальной диагностикой сети</div>
+            </a>
+            
+            <a href="index_animasion.html" class="nav-btn btn-animation">
+                <div class="icon">🎨</div>
+                <div class="title">Анимация JS/CSS 1</div>
+                <div class="description">Первая коллекция анимационных эффектов на JavaScript и CSS</div>
+            </a>
+            
+            <a href="index_animasion1.html" class="nav-btn btn-animation">
+                <div class="icon">✨</div>
+                <div class="title">Анимация JS/CSS 2</div>
+                <div class="description">Вторая серия интерактивных анимаций и переходов</div>
+            </a>
+            
+            <a href="index_animasion2.html" class="nav-btn btn-animation">
+                <div class="icon">🌟</div>
+                <div class="title">Анимация JS/CSS 3</div>
+                <div class="description">Продвинутые анимационные техники и эффекты</div>
+            </a>
+        </div>
+    </div>
     <header>
         <h1>Тест скорости интернета</h1>
         <p class="subtitle">Проверьте скорость загрузки, отдачи и пинг вашего соединения</p>
