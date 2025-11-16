@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пульсирующая анимация</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #ff6b6b, #74b9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            opacity: 0.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .pulse-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 60px;
+            margin: 50px 0;
+        }
+        
+        .pulse {
+            width: 80px;
+            height: 80px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        @keyframes pulse {
+          0% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); 
+          }
+          70% { 
+            transform: scale(1); 
+            box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); 
+          }
+          100% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); 
+          }
+        }
+        
+        /* Варианты пульсирующих элементов */
+        .pulse-blue {
+            background: #74b9ff;
+            animation: pulse-blue 2s infinite;
+        }
+        
+        @keyframes pulse-blue {
+          0% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(116, 185, 255, 0.7); 
+          }
+          70% { 
+            transform: scale(1); 
+            box-shadow: 0 0 0 20px rgba(116, 185, 255, 0); 
+          }
+          100% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(116, 185, 255, 0); 
+          }
+        }
+        
+        .pulse-green {
+            background: #55efc4;
+            animation: pulse-green 2s infinite;
+        }
+        
+        @keyframes pulse-green {
+          0% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(85, 239, 196, 0.7); 
+          }
+          70% { 
+            transform: scale(1); 
+            box-shadow: 0 0 0 20px rgba(85, 239, 196, 0); 
+          }
+          100% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(85, 239, 196, 0); 
+          }
+        }
+        
+        .pulse-purple {
+            background: #a29bfe;
+            animation: pulse-purple 2s infinite;
+        }
+        
+        @keyframes pulse-purple {
+          0% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(162, 155, 254, 0.7); 
+          }
+          70% { 
+            transform: scale(1); 
+            box-shadow: 0 0 0 20px rgba(162, 155, 254, 0); 
+          }
+          100% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(162, 155, 254, 0); 
+          }
+        }
+        
+        .pulse-orange {
+            background: #fd9644;
+            animation: pulse-orange 2s infinite;
+        }
+        
+        @keyframes pulse-orange {
+          0% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(253, 150, 68, 0.7); 
+          }
+          70% { 
+            transform: scale(1); 
+            box-shadow: 0 0 0 20px rgba(253, 150, 68, 0); 
+          }
+          100% { 
+            transform: scale(0.9); 
+            box-shadow: 0 0 0 0 rgba(253, 150, 68, 0); 
+          }
+        }
+        
+        .pulse-info {
+            margin-top: 30px;
+            font-size: 1rem;
+            opacity: 0.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border-left: 4px solid #ff6b6b;
+            overflow-x: auto;
+        }
+        
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .pulse-label {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .pulse-container {
+                gap: 40px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pulse-container {
+                gap: 30px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .pulse {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Пульсирующая Анимация</h1>
+        <p class="subtitle">Демонстрация CSS-анимации pulse с различными цветами и эффектами. Каждый элемент пульсирует с уникальным ритмом и цветом.</p>
+        
+        <div class="pulse-container">
+            <div>
+                <div class="pulse">PULSE</div>
+                <div class="pulse-label">Красный</div>
+            </div>
+            <div>
+                <div class="pulse pulse-blue">PULSE</div>
+                <div class="pulse-label">Синий</div>
+            </div>
+            <div>
+                <div class="pulse pulse-green">PULSE</div>
+                <div class="pulse-label">Зеленый</div>
+            </div>
+            <div>
+                <div class="pulse pulse-purple">PULSE</div>
+                <div class="pulse-label">Фиолетовый</div>
+            </div>
+            <div>
+                <div class="pulse pulse-orange">PULSE</div>
+                <div class="pulse-label">Оранжевый</div>
+            </div>
+        </div>
+        
+        <div class="code-block">
+            <pre>.pulse {
+  width: 80px;
+  height: 80px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { 
+    transform: scale(0.9); 
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); 
+  }
+  70% { 
+    transform: scale(1); 
+    box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); 
+  }
+  100% { 
+    transform: scale(0.9); 
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); 
+  }
+}</pre>
+        </div>
+        
+        <p class="pulse-info">Эта анимация создает эффект пульсации с помощью изменения масштаба и тени элемента. Она может использоваться для привлечения внимания к важным элементам интерфейса.</p>
+        
+        <div class="controls">
+            <button onclick="toggleAnimation()">Приостановить анимацию</button>
+            <button onclick="changeSpeed(0.5)">Ускорить</button>
+            <button onclick="changeSpeed(2)">Замедлить</button>
+            <button onclick="resetAnimation()">Сбросить</button>
+        </div>
+    </div>
+
+    <script>
+        let isPaused = false;
+        
+        function toggleAnimation() {
+            const pulses = document.querySelectorAll('.pulse');
+            const button = document.querySelector('.controls button');
+            
+            if (!isPaused) {
+                pulses.forEach(pulse => {
+                    pulse.style.animationPlayState = 'paused';
+                });
+                button.textContent = 'Возобновить анимацию';
+            } else {
+                pulses.forEach(pulse => {
+                    pulse.style.animationPlayState = 'running';
+                });
+                button.textContent = 'Приостановить анимацию';
+            }
+            
+            isPaused = !isPaused;
+        }
+        
+        function changeSpeed(factor) {
+            const pulses = document.querySelectorAll('.pulse');
+            pulses.forEach(pulse => {
+                const currentDuration = parseFloat(getComputedStyle(pulse).animationDuration);
+                pulse.style.animationDuration = `${currentDuration * factor}s`;
+            });
+        }
+        
+        function resetAnimation() {
+            const pulses = document.querySelectorAll('.pulse');
+            pulses.forEach(pulse => {
+                pulse.style.animationDuration = '';
+                pulse.style.animationPlayState = 'running';
+            });
+            
+            if (isPaused) {
+                const button = document.querySelector('.controls button');
+                button.textContent = 'Приостановить анимацию';
+                isPaused = false;
+            }
+        }
+    </script>
+</body>
+</html>
